@@ -17,8 +17,16 @@ postRouter.post(
   createPost as any
 );
 postRouter.get("/", authMidelware as unknown as NextFunction, getPosts as any);
-postRouter.get("/:id" ,getPost as any);
-postRouter.put("/:id", updatePost);
+postRouter.get(
+  "/:id",
+  authMidelware as unknown as NextFunction,
+  getPost as any
+);
+postRouter.put(
+  "/:id",
+  authMidelware as unknown as NextFunction,
+  updatePost as any
+);
 postRouter.delete("/:id", deletePost);
 postRouter.post("/:id/comments", addComment);
 

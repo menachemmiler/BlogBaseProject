@@ -20,7 +20,7 @@ export const loginUser = async (
       },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: "3m",
+        expiresIn: "10m",
       }
     );
     return token;

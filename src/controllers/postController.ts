@@ -49,7 +49,8 @@ export const getPost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const posts = await Post.findById(req.params.id || "");
+    console.log(req.params.id);
+    const posts: IPost | null = await Post.findById(req.params.id);
     if (!posts) throw new Error("no post with this id!");
     res.status(200).json(posts);
   } catch (err) {
@@ -59,10 +60,25 @@ export const getPost = async (
 
 // Update a post
 export const updatePost = async (
-  req: Request,
+  req: AuthenticatedRequest<IPost>,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const posts = await Post.findById(req.params.id);
+    if (!posts) throw new Error("no post with this id!");
+    const { title, content } = req.body;
+    if (!title || !content) throw new Error("missing info");
+    posts.title = title;
+    posts.content = content;
+    const savedPost: IPost = await posts.save();
+    res.status(200).json(savedPost);
+  } catch (err: any) {
+    res.status(err.status | 400).send({
+      err: err.message,
+    });
+  }
+};
 
 // Add a comment to a post
 export const addComment = async (
