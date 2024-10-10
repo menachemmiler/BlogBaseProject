@@ -3,6 +3,7 @@ import Post, { IPost } from "../models/postModel";
 import User from "../models/userModel";
 import { createPostService } from "../services/postService";
 import AuthenticatedRequest from "../types/authenticatedRequest";
+import { Schema, Types } from "mongoose";
 
 // Create a new post
 export const createPost = async (
@@ -23,10 +24,27 @@ export const createPost = async (
 
 // Delete a post
 export const deletePost = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (!deletedPost) {
+      res.status(404).json({ success: false, message: "Post not found" });
+      return;
+    }
+    await User.findByIdAndUpdate(deletedPost.author, {
+      $pull: { posts: deletedPost._id },
+    }); //מוחק מ-פוסטים את מי שתואם למזהה של הפוסט שנמחק
+    res.status(204).json({ success: true, data: null });
+  } catch (err: any) {
+    res.status(err.status | 400).send({
+      err: err.message,
+    });
+  }
+};
 
 // Get all posts
 export const getPosts = async (
@@ -37,8 +55,10 @@ export const getPosts = async (
   try {
     const posts = await Post.find();
     res.json(posts);
-  } catch (err) {
-    throw err;
+  } catch (err: any) {
+    res.status(err.status | 400).send({
+      err: err.message,
+    });
   }
 };
 
@@ -53,8 +73,10 @@ export const getPost = async (
     const posts: IPost | null = await Post.findById(req.params.id);
     if (!posts) throw new Error("no post with this id!");
     res.status(200).json(posts);
-  } catch (err) {
-    throw err;
+  } catch (err: any) {
+    res.status(err.status | 400).send({
+      err: err.message,
+    });
   }
 };
 

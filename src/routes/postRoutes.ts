@@ -27,7 +27,11 @@ postRouter.put(
   authMidelware as unknown as NextFunction,
   updatePost as any
 );
-postRouter.delete("/:id", deletePost);
+postRouter.delete(
+  "/:id",
+  authMidelware as unknown as NextFunction,
+  deletePost as any
+);
 postRouter.post("/:id/comments", addComment);
 
 export default postRouter;
