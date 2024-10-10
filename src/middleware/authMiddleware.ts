@@ -11,7 +11,7 @@ const authMidelware = async (
   try {
     // @ts-ignore
     const token:string = req.cookies.token;
-
+    
     if (!token) {
       res.status(403).send("Not allowed");
     }
