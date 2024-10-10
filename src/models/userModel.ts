@@ -1,17 +1,45 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 import validator from "validator";
 
-export interface IUser extends Document {
-  _id: Types.ObjectId;
-  username: string;
-  email: string;
-  profile: {
-    bio?: string;
-    socialLinks?: string[];
-  };
-  posts: Types.ObjectId[];
+export interface IProfile extends Document {
+  bio?: string; //פריטים על המשתמש
+  socialLinks?: string[]; //לינקים קשורים למשתמש
 }
 
-const UserSchema = new Schema<IUser>({});
+const ProfileSchema = new Schema({
+  bio: {
+    type: String,
+  },
+  socialLinks: {
+    type: String,
+  },
+});
+
+export interface IUser extends Document {
+  //אינ טרפייס של משתמש במערכת
+  username: string; //שם
+  email: string; //מייל
+  profile: IProfile;
+  posts: Types.ObjectId[]; //
+}
+
+const UserSchema = new Schema({
+  username: {
+    type: String,
+    required: [true, "username is required!"],
+  },
+  email: {
+    type: String,
+    required: [true, "email is required!"],
+  },
+  profile: {
+    type: ProfileSchema,
+  },
+  posts: {
+    //משתמש מחזיק מערך של פוסטים )רפרנסים(
+    type: [Schema.ObjectId],
+    ref: "Post",
+  },
+});
 
 export default mongoose.model<IUser>("User", UserSchema);
