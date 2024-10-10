@@ -11,8 +11,12 @@ import authMidelware from "../middleware/authMiddleware";
 
 const postRouter = Router();
 
-postRouter.post("/", authMidelware as unknown as NextFunction, createPost as any);
-postRouter.get("/", getPosts);
+postRouter.post(
+  "/",
+  authMidelware as unknown as NextFunction,
+  createPost as any
+);
+postRouter.get("/", authMidelware as unknown as NextFunction, getPosts as any);
 postRouter.get("/:id", getPost);
 postRouter.put("/:id", updatePost);
 postRouter.delete("/:id", deletePost);

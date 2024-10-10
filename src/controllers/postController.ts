@@ -11,7 +11,10 @@ export const createPost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const seavedPost: IPost | unknown = await createPostService(req.body, req.user._id || "");
+    const seavedPost: IPost | unknown = await createPostService(
+      req.body,
+      req.user._id || ""
+    );
     res.status(201).json(seavedPost);
   } catch (err: any) {
     res.status(400).json({ msg: err.message });
@@ -27,10 +30,17 @@ export const deletePost = async (
 
 // Get all posts
 export const getPosts = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (err) {
+    throw err;
+  }
+};
 
 // Get a single post by ID
 export const getPost = async (
