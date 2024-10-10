@@ -2,18 +2,17 @@ import { Request, Response, NextFunction } from "express";
 import Post, { IPost } from "../models/postModel";
 import User from "../models/userModel";
 import { createPostService } from "../services/postService";
+import AuthenticatedRequest from "../types/authenticatedRequest";
 
 // Create a new post
 export const createPost = async (
-  req: Request<any, any, IPost>,
+  req: AuthenticatedRequest<IPost>,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    await createPostService(req.body);
-    res.status(201).json({
-      msg: "post created!",
-    });
+    const seavedPost: IPost | unknown = await createPostService(req.body, req.user._id || "");
+    res.status(201).json(seavedPost);
   } catch (err: any) {
     res.status(400).json({ msg: err.message });
   }

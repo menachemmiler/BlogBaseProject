@@ -2,10 +2,10 @@ import { Schema } from "mongoose";
 import postModel, { IPost } from "../models/postModel";
 import userModel from "../models/userModel";
 
-export const createPostService = async (post: IPost): Promise<void> => {
+export const createPostService = async (post: IPost, author:string): Promise<IPost> => {
   try {
-    const { title, content, author } = post;
-    if (!title || !content || !author) {
+    const { title, content } = post;
+    if (!title || !content) {
       throw new Error("missing info");
     }
     //find the author
@@ -20,6 +20,7 @@ export const createPostService = async (post: IPost): Promise<void> => {
     const seavedPost:IPost = await dbPosts.save();
     theAuthor.posts?.push(seavedPost._id as Schema.Types.ObjectId);
     await theAuthor.save();
+    return seavedPost;
   } catch (err: any) {
     throw err;
   }

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Router } from "express";
 import {
   createPost,
   getPosts,
@@ -7,10 +7,11 @@ import {
   deletePost,
   addComment,
 } from "../controllers/postController";
+import authMidelware from "../middleware/authMiddleware";
 
 const postRouter = Router();
 
-postRouter.post("/", createPost);
+postRouter.post("/", authMidelware as unknown as NextFunction, createPost as any);
 postRouter.get("/", getPosts);
 postRouter.get("/:id", getPost);
 postRouter.put("/:id", updatePost);

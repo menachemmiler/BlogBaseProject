@@ -1,6 +1,6 @@
 import userModel, { IUser } from "../models/userModel";
 
-export const createUserService = async (user: IUser): Promise<void> => {
+export const createUserService = async (user: IUser): Promise<IUser> => {
   try {
     const { username, email, profile, posts } = user;
     if (!username || !email) {
@@ -10,18 +10,17 @@ export const createUserService = async (user: IUser): Promise<void> => {
       username,
       email,
     });
-    await dbUser.save();
+    const newUser = await dbUser.save();
+    return newUser;
   } catch (err: any) {
     console.log(err);
     throw err;
   }
 };
 
-
 export const getAllUsersService = async (): Promise<IUser[]> => {
   try {
-    const allUsers = await userModel.find({}).populate('posts');
-    // const allUsers = await userModel.find({});
+    const allUsers = await userModel.find({}).populate("posts");
     console.log("allUsers= ", allUsers);
     return allUsers;
   } catch (err: any) {

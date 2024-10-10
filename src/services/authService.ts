@@ -15,7 +15,8 @@ export const loginUser = async (
     const token = jsonwebtoken.sign(
       {
         user_name: dbUser.username,
-        password: dbUser.email,
+        email: dbUser.email,
+        _id: dbUser._id,
       },
       process.env.JWT_SECRET as string,
       {

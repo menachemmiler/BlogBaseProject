@@ -7,10 +7,8 @@ export const createUser = async (
   res: Response
 ) => {
   try {
-    await createUserService(req.body);
-    res.status(201).json({
-      msg: "user created!",
-    });
+    const savedUser: IUser | unknown = await createUserService(req.body);
+    res.status(201).json(savedUser);
   } catch (err: any) {
     res.status(400).json({ msg: err.message });
   }
@@ -30,7 +28,7 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const profile = async (req: Request, res: Response) => {
-    res.send("יקבל את הפרופיל שלו (צריך לבצע הרשמה קודם)")
+  res.send("יקבל את הפרופיל שלו (צריך לבצע הרשמה קודם)");
 };
 
 // Optionally, add DELETE and EDIT functions
