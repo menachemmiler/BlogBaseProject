@@ -44,10 +44,18 @@ export const getPosts = async (
 
 // Get a single post by ID
 export const getPost = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const posts = await Post.findById(req.params.id || "");
+    if (!posts) throw new Error("no post with this id!");
+    res.status(200).json(posts);
+  } catch (err) {
+    throw err;
+  }
+};
 
 // Update a post
 export const updatePost = async (
