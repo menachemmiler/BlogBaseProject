@@ -23,7 +23,7 @@ export interface IUser extends Document {
   posts?: Types.ObjectId[]; //
 }
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<IUser>({
   username: {
     type: String,
     required: [true, "username is required!"],
