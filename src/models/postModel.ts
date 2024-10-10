@@ -11,7 +11,7 @@ export interface IPost extends Document {
   title: string;
   content: string;
   author: Schema.Types.ObjectId; //הערה מקושרת למזהה של היוצר שלה
-  comments: IComment[];
+  comments?: IComment[];
 }
 
 const CommentSchema = new Schema<IComment>({
