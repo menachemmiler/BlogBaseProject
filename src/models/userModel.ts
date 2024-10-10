@@ -20,7 +20,7 @@ export interface IUser extends Document {
   username: string; //שם
   email: string; //מייל
   profile?: IProfile; //
-  posts?: Types.ObjectId[]; //
+  posts?: Schema.Types.ObjectId[]; //
 }
 
 const UserSchema = new Schema<IUser>({
@@ -38,7 +38,7 @@ const UserSchema = new Schema<IUser>({
   },
   posts: {
     //משתמש מחזיק מערך של פוסטים )רפרנסים(
-    type: [Schema.ObjectId],
+    type: [Schema.Types.ObjectId],
     ref: "Post",
     default: [],
   },

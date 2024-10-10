@@ -3,14 +3,14 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 export interface IComment {
   //המבנה של הערה
   content: string; //התוכן של הערה
-  author: Types.ObjectId; //הערה מקושרת למזהה של היוצר שלה
+  author: Schema.Types.ObjectId; //הערה מקושרת למזהה של היוצר שלה
   createdAt: Date; //תאריך יצירת ההודעה
 }
 
 export interface IPost extends Document {
   title: string;
   content: string;
-  author: Types.ObjectId; //הערה מקושרת למזהה של היוצר שלה
+  author: Schema.Types.ObjectId; //הערה מקושרת למזהה של היוצר שלה
   comments: IComment[];
 }
 
@@ -21,7 +21,7 @@ const CommentSchema = new Schema<IComment>({
     required: [true, "content is required!"],
   },
   author: {
-    type: Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
   },
   createdAt: {
@@ -41,7 +41,7 @@ const PostSchema = new Schema<IPost>({
     required: [true, "content is required!"],
   },
   author: {
-    type: Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
   },
   comments: {

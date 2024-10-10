@@ -17,11 +17,11 @@ export const createUserService = async (user: IUser): Promise<void> => {
   }
 };
 
+
 export const getAllUsersService = async (): Promise<IUser[]> => {
   try {
     // const allUsers = await userModel.find({}).populate('posts');
     const allUsers = await userModel.find({});
-    // const allUsers = await userModel.find({});
     console.log("allUsers= ", allUsers);
     return allUsers;
   } catch (err: any) {

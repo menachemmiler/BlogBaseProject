@@ -21,7 +21,7 @@ app.use(cookieParser()); //
 connectDB();
 
 // Routes
-app.use("api/auth", authRout);
+app.use("/api/auth", authRout);
 app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 
