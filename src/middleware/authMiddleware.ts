@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-interface PayloadRequest extends Request {
-  user: JwtPayload;
-}
+
 
 const authMidelware = async (
-  req: PayloadRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const token = req.cookies.token;
+    // @ts-ignore
+    const token:string = req.cookies.token;
 
     if (!token) {
       res.status(403).send("Not allowed");
@@ -22,7 +21,9 @@ const authMidelware = async (
       process.env.JWT_SECRET as string
     )) as JwtPayload;
 
+    //@ts-ignore
     req.user = userData;
+    console.log({ userData });
 
     next();
   } catch (error: any) {
