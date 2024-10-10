@@ -29,6 +29,8 @@ export const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const getUser = async (req: Request, res: Response) => {};
+export const profile = async (req: Request, res: Response) => {
+    res.send("יקבל את הפרופיל שלו (צריך לבצע הרשמה קודם)")
+};
 
 // Optionally, add DELETE and EDIT functions
