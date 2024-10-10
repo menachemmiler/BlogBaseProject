@@ -46,6 +46,7 @@ const PostSchema = new Schema<IPost>({
   },
   comments: {
     type: [CommentSchema], //פוסט מכיל מערך של הערות
+    default: [],
   },
 });
 

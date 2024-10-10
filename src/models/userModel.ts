@@ -19,8 +19,8 @@ export interface IUser extends Document {
   //אינ טרפייס של משתמש במערכת
   username: string; //שם
   email: string; //מייל
-  profile: IProfile;
-  posts: Types.ObjectId[]; //
+  profile?: IProfile; //
+  posts?: Types.ObjectId[]; //
 }
 
 const UserSchema = new Schema({
@@ -34,11 +34,13 @@ const UserSchema = new Schema({
   },
   profile: {
     type: ProfileSchema,
+    default: {},
   },
   posts: {
     //משתמש מחזיק מערך של פוסטים )רפרנסים(
     type: [Schema.ObjectId],
     ref: "Post",
+    default: [],
   },
 });
 
